@@ -16,7 +16,7 @@ class ProductoRepository:
         self.productos = []
         self.cargar_productos()
 
-    def cargar_productos(self):
+    def cargar_productos(self): 
         if not os.path.exists(self.file_path):
             with open(self.file_path, 'w', newline='') as file:
                 writer = csv.writer(file)

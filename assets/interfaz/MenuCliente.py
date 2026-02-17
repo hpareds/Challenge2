@@ -28,18 +28,18 @@ class MenuCliente:
 
     def mostrar_listado(self):
             print("\n--- LISTADO DE PRODUCTOS ---")
-            # 1. Llamamos al método obtener_todos() del servicio/repo
+            # llamar metodo obtener_todos() producto_service
             productos = self.producto_service.obtener_todos()
 
-            if not productos:
+            if not productos: #validar que haya productos
                 print("No hay productos cargados en el sistema.")
                 return
 
-            # 2. Imprimimos con formato para que se vea ordenado
+            # Imprimimos con formato para que se vea ordenado
             print(f"{'ID':<5} | {'Nombre':<20} | {'Precio':<10} | {'Stock':<5}")
             print("-" * 50)
             
             for p in productos:
-                # Filtro: Solo mostrar si el producto está activo
+                # mostrar solo si el producto está activo
                 if p.activo == "True":
                     print(f"{p.id:<5} | {p.nombre:<20} | ${p.precio:<9} | {p.stock:<5}")
