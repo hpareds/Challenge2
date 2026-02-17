@@ -11,8 +11,9 @@ from assets.interfaz.MenuCliente import MenuCliente
 from assets.utilidades import limpiar_pantalla
 
 class MenuPrincipal:
-    def __init__(self, servicio_autenticacion, servicio_producto, servicio_categoria):
+    def __init__(self, servicio_autenticacion, servicio_producto, servicio_categoria, servicio_compra):
         self.servicio_autenticacion = servicio_autenticacion
+        self.compra_service = servicio_compra
         # Alias para compatibilidad con el codigo de MenuAdmin
         self.user_service = servicio_autenticacion 
         self.prod_service = servicio_producto
@@ -20,7 +21,6 @@ class MenuPrincipal:
 
     def iniciar(self):
         while True:
-            limpiar_pantalla()
             print("\n---SISTEMA DE SUPERMERCADO PYTHON---")
             print("1. Iniciar sesión")
             print("2. Salir")
@@ -66,7 +66,7 @@ class MenuPrincipal:
             self.cambiar_contraseña_obligatorio(cliente)
         
         # mostrar menu despues del logueo (o cambio de contraseña)
-        menu_cliente = MenuCliente(self.servicio_autenticacion, self.prod_service)
+        menu_cliente = MenuCliente(self.servicio_autenticacion, self.prod_service, self.compra_service, cliente)
         menu_cliente.iniciar() #llama al menu del cliente y se ejecutan las funciones del metodo
 
     def cambiar_contraseña_obligatorio(self, cliente):
@@ -77,7 +77,6 @@ class MenuPrincipal:
             if nueva_contra and nueva_contra == confirmar_contra:
                 cliente.password = nueva_contra
                 cliente.primer_ingreso = "False"
-                # Aquí deberás llamar a tu Repositorio para guardar este cambio en el CSV
                 self.servicio_autenticacion.actualizar_usuario(cliente)
                 print("Contraseña actualizada con éxito.")
                 break # No se permite continuar sin completar esto 
@@ -85,7 +84,6 @@ class MenuPrincipal:
                 print("Las contraseñas no coinciden o están vacías. Reintente.")
 
     def abrir_menu_admin(self, admin_logueado):
-        # Importamos aquí para evitar importaciones circulares si fuera necesario
         from assets.interfaz.MenuAdmin import MenuAdmin
         
         print(f"\nAccediendo como Administrador: {admin_logueado.nombres}")

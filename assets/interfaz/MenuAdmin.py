@@ -80,37 +80,64 @@ class MenuAdmin:
             if opc == "1":
                 print("\n--- AGREGAR PRODUCTO ---")
                 nombre = input("Nombre: ")
-                precio = input("Precio: ")
-                stock = input("Stock: ")
                 
+                try:
+                    precio = float(input("Precio: "))
+                    stock = int(input("Stock: "))
+                except ValueError:
+                    print("\nError: Precio y Stock deben ser numéricos.")
+                    input("Presione Enter para continuar...")
+                    continue
+                
+                precio = str(precio)
+                stock = str(stock)
+
                 id_categoria = self.solicitar_categoria_valida()
                 if not id_categoria:
                     print("Operación cancelada.")
                     continue
 
-                # Validar que no esten vacios
-                if nombre and precio and stock and id_categoria:
+                if nombre and id_categoria:
                     self.producto_service.crear_producto(nombre, precio, stock, id_categoria)
                     print("\nProducto agregado con éxito.")
                 else:
                      print("\nError: Todos los campos son obligatorios.")
+                
+                input("Presione Enter para continuar...")
 
             elif opc == "2":
                 print("\n--- ACTUALIZAR PRODUCTO ---")
                 id_prod = input("ID del producto a actualizar: ")
                 nombre = input("Nuevo Nombre: ")
-                precio = input("Nuevo Precio: ")
-                stock = input("Nuevo Stock: ")
+                
+                try:
+                    precio = float(input("Nuevo Precio: "))
+                    stock = int(input("Nuevo Stock: "))
+                except ValueError:
+                    print("\nError: Precio y Stock deben ser numéricos.")
+                    input("Presione Enter para continuar...")
+                    continue
+
+                precio = str(precio)
+                stock = str(stock)
                 
                 id_categoria = self.solicitar_categoria_valida()
                 if not id_categoria:
                      print("\nOperación cancelada.")
                      continue
                 
+                # VALIDACION DE CAMPOS VACIOS
+                if not nombre or not precio or not stock or not id_categoria:
+                    print("\nError: Todos los campos son obligatorios para actualizar.")
+                    input("Presione Enter para continuar...")
+                    continue
+
                 if self.producto_service.actualizar_producto(id_prod, nombre, precio, stock, id_categoria):
                     print("\nProducto actualizado con éxito.")
                 else:
                     print("\nError: Producto no encontrado.")
+                
+                input("Presione Enter para continuar...")
 
             elif opc == "3":
                 print("\n--- ELIMINAR PRODCUTO ---")
@@ -119,6 +146,7 @@ class MenuAdmin:
                      print("\nProducto eliminado (desactivado) con éxito.")
                 else:
                     print("\nError: Producto no encontrado.")
+                input("Presione Enter para continuar...")
 
             elif opc == "4":
                 print("\nVolviendo al menú principal...")
@@ -145,3 +173,5 @@ class MenuAdmin:
         else: #si hay productos agotados
             for a in agotados: #recorre la lista de productos agotados e imprime
                 print(f"- {a.nombre} (Cat: {a.id_categoria})")
+        
+        input("\nPresione Enter para continuar...")
