@@ -5,3 +5,4 @@ id,nombres,apellidos,username,password,rol,primer_ingreso
 4,Pedro,Ramirez,PR4,1234,Administrador,False
 5,Aliss,Roque,AL5,admin123,Cliente,False
 6,Juan,Carlos,JU6,4321,Cliente,False
+7,Jose,Ramirez,JO7,cliente1234,Cliente,False

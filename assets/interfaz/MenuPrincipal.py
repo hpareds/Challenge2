@@ -1,11 +1,4 @@
-import sys
 import os
-
-# Agregamos la carpeta raíz del proyecto al path de Python si se ejecuta directamente
-if __name__ == "__main__":
-    root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    if root_path not in sys.path:
-        sys.path.insert(0, root_path)
 
 from assets.interfaz.MenuCliente import MenuCliente
 from assets.utilidades import limpiar_pantalla
@@ -14,7 +7,6 @@ class MenuPrincipal:
     def __init__(self, servicio_autenticacion, servicio_producto, servicio_categoria, servicio_compra):
         self.servicio_autenticacion = servicio_autenticacion
         self.compra_service = servicio_compra
-        # Alias para compatibilidad con el codigo de MenuAdmin
         self.user_service = servicio_autenticacion 
         self.prod_service = servicio_producto
         self.cat_service = servicio_categoria
@@ -45,7 +37,7 @@ class MenuPrincipal:
             usuario_logueado = self.servicio_autenticacion.login(usuario, password)
             
             if usuario_logueado:
-                print(f"\n¡Bienvenido {usuario_logueado.nombres}!") #logueo correcto
+                print(f"\n¡Bienvenido {usuario_logueado.nombres}!") 
                 if usuario_logueado.rol == "Administrador":
                     self.abrir_menu_admin(usuario_logueado)
                 elif usuario_logueado.rol == "Cliente":

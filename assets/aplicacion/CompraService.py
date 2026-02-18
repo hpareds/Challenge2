@@ -17,18 +17,18 @@ class CompraService:
         # Generar resumen de items
         items_str = " | ".join([f"{i['producto'].nombre} (x{i['cantidad']})" for i in carrito])
 
-        nueva_factura = Factura(
+        nueva_factura = Factura( # Creamos la factura
             id_factura=nueva_factura_id,
-            fecha=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            fecha=datetime.now().strftime("%Y-%m-%d %H:%M:%S"), # Generamos la fecha con formato YYYY-MM-DD HH:MM:SS
             id_cliente=cliente.id,
             total=total_compra,
             items=items_str
         )
 
-        # 2. Guardar la factura (cabecera)
+        # Guardar la factura (
         self.factura_repo.agregar(nueva_factura)
 
-        # 3. Procesar cada producto del carrito
+        # Procesar cada producto del carrito
         for item in carrito:
             producto = item['producto']
             cantidad = item['cantidad']
@@ -49,5 +49,5 @@ class CompraService:
 
         return nueva_factura
 
-    def obtener_historial_cliente(self, id_cliente):
+    def obtener_historial_cliente(self, id_cliente): # Obtenemos el historial de compras de un cliente
         return self.factura_repo.obtener_por_cliente(id_cliente)

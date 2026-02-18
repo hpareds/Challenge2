@@ -1,9 +1,3 @@
-import os
-
-# Agregamos la carpeta raíz del proyecto al path de Python
-root_path = os.path.dirname(os.path.abspath(__file__))
-# if root_path not in sys.path:
-#     sys.path.insert(0, root_path)
 
 # importamos los repositorios y servicios
 from assets.infraestructura.UsuarioRepository import UsuarioRepository
@@ -28,14 +22,10 @@ def main():
     servicio_producto = ProductoService(producto_repo)
     servicio_categoria = CategoriaService(categoria_repo)
     servicio_compra = CompraService(servicio_producto, factura_repo, detalle_repo)
-    
     menu = MenuPrincipal(servicio_autenticacion, servicio_producto, servicio_categoria, servicio_compra)
+    
     menu.iniciar()
     
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\n\nSaliendo del sistema...")
-        # sys.exit(0)
+    main()

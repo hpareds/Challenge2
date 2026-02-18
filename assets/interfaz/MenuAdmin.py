@@ -49,13 +49,15 @@ class MenuAdmin:
         print(f"\n¡Usuario creado con éxito!")
         print(f"Username generado: {nuevo_user.username}") #mensaje de usuario creado
 
-    def mostrar_categorias(self):
+    # gestiona categorias a ingresar nuevo producto
+    def mostrar_categorias(self): # imprime las categorias disponibles
         print("\nCategorías disponibles:")
         categorias = self.categoria_service.obtener_todas()
         for c in categorias:
             print(f"{c.id}. {c.nombre}")
 
-    def solicitar_categoria_valida(self):
+    # solicita una categoria valida
+    def solicitar_categoria_valida(self): 
         self.mostrar_categorias()
         while True:
             id_categoria = input("ID Categoría (o 'cancelar'): ")
@@ -67,8 +69,8 @@ class MenuAdmin:
 
     # GESTIÓN DE PRODUCTOS (CRUD) 
     def pantalla_gestion_productos(self):
+        limpiar_pantalla()
         while True:
-            limpiar_pantalla()
             print("\n--- GESTIÓN DE PRODUCTOS ---")
             print("1. Agregar producto")
             print("2. Actualizar producto")
@@ -79,11 +81,11 @@ class MenuAdmin:
 
             if opc == "1":
                 print("\n--- AGREGAR PRODUCTO ---")
-                nombre = input("Nombre: ")
+                nombre = input("Nombre: ") # solicita nombre del producto
                 
                 try:
-                    precio = float(input("Precio: "))
-                    stock = int(input("Stock: "))
+                    precio = float(input("Precio: ")) # solicita precio del producto
+                    stock = int(input("Stock: ")) # solicita stock del producto
                 except ValueError:
                     print("\nError: Precio y Stock deben ser numéricos.")
                     input("Presione Enter para continuar...")
@@ -93,11 +95,11 @@ class MenuAdmin:
                 stock = str(stock)
 
                 id_categoria = self.solicitar_categoria_valida()
-                if not id_categoria:
+                if not id_categoria: # si no se selecciona una categoria valida se cancela la operacion
                     print("Operación cancelada.")
                     continue
 
-                if nombre and id_categoria:
+                if nombre and id_categoria: # si se selecciona una categoria valida
                     self.producto_service.crear_producto(nombre, precio, stock, id_categoria)
                     print("\nProducto agregado con éxito.")
                 else:
@@ -105,12 +107,12 @@ class MenuAdmin:
                 
                 input("Presione Enter para continuar...")
 
-            elif opc == "2":
+            elif opc == "2": # actualizar producto
                 print("\n--- ACTUALIZAR PRODUCTO ---")
                 id_prod = input("ID del producto a actualizar: ")
                 nombre = input("Nuevo Nombre: ")
                 
-                try:
+                try: # solicita precio y stock del producto y valida que sean numéricos
                     precio = float(input("Nuevo Precio: "))
                     stock = int(input("Nuevo Stock: "))
                 except ValueError:
@@ -121,13 +123,13 @@ class MenuAdmin:
                 precio = str(precio)
                 stock = str(stock)
                 
-                id_categoria = self.solicitar_categoria_valida()
+                id_categoria = self.solicitar_categoria_valida() # solicita una categoria valida
                 if not id_categoria:
                      print("\nOperación cancelada.")
                      continue
                 
                 # VALIDACION DE CAMPOS VACIOS
-                if not nombre or not precio or not stock or not id_categoria:
+                if not nombre or not precio or not stock or not id_categoria: # valida que todos los campos esten completos
                     print("\nError: Todos los campos son obligatorios para actualizar.")
                     input("Presione Enter para continuar...")
                     continue
@@ -139,7 +141,7 @@ class MenuAdmin:
                 
                 input("Presione Enter para continuar...")
 
-            elif opc == "3":
+            elif opc == "3": # eliminar producto
                 print("\n--- ELIMINAR PRODCUTO ---")
                 id_prod = input("ID del producto a eliminar: ")
                 if self.producto_service.desactivar_producto(id_prod):
@@ -148,7 +150,7 @@ class MenuAdmin:
                     print("\nError: Producto no encontrado.")
                 input("Presione Enter para continuar...")
 
-            elif opc == "4":
+            elif opc == "4": # volver al menu principal
                 print("\nVolviendo al menú principal...")
                 break
             else:
